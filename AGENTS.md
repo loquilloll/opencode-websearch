@@ -67,9 +67,10 @@ Strong success criteria let you loop independently. Weak criteria ("make it work
 
 ## Project
 
-OpenCode V2 plugin that registers a `native` backend for the built-in `websearch` tool, using the configured provider's own web search (Anthropic, OpenAI/ChatGPT, GitHub Copilot, xAI, Moonshot, Z.ai, DeepSeek, OpenCode Go). TypeScript, built and tested with Bun.
+Dual-format OpenCode plugin (fork of emilsvennesson/opencode-websearch): one default export `{ id, server, setup }` loads under both the opencode 1.x plugin API (`{ id, server }`, v1 PluginInput) and the 2.x plugin API (`{ id, setup }`, v2 Context). The v2 half registers a `native` backend for the built-in `websearch` tool using the configured provider's own web search (Anthropic, OpenAI/ChatGPT, GitHub Copilot, xAI, Moonshot, Z.ai, DeepSeek, OpenCode Go); the v1 half is the frozen standalone `web-search` tool vendored in `src/v1/` from upstream commit 775eac4. TypeScript, built and tested with Bun.
 
-- `src/index.ts` is the plugin entry point; each provider lives in `src/providers/<name>/`.
+- `src/index.ts` is the dual-format entry; `src/v2.ts` the v2 setup; `src/v1/` the frozen v1 implementation; each v2 provider lives in `src/providers/<name>/`.
 - `bun run check` runs format check, lint, typecheck, and tests. It must pass before committing.
+- `bun run build:bundle` emits `dist/bundle.js` (provider SDKs inlined, `@opencode-ai/plugin` external). Deploy: copy to `~/.config/opencode/websearch-bundle/plugin.js`; the shim `~/.config/opencode/plugins/websearch.ts` re-exports its default.
 - Lint is oxlint (`.oxlintrc.json`), formatting is oxfmt. Follow the style of the surrounding code; the linter enforces the rest.
 - Use [Conventional Commits](https://www.conventionalcommits.org/) for commit messages and PR titles (`feat:`, `fix:`, `docs:`, `chore:`, ...). Releases are generated from them by release-please.

@@ -20,6 +20,7 @@
     "build": "bun build src/index.ts --outdir dist --target node --format esm --packages external && bun run build:types",
     "build:types": "tsc --emitDeclarationOnly --declaration --outDir dist",
     "dev": "bun run --watch src/index.ts",
+    "build:bundle": "bun build src/index.ts --outfile dist/bundle.js --target node --format esm --packages bundle --external @opencode-ai/plugin",
     "format": "oxfmt src/ test/",
     "format:check": "oxfmt --check src/ test/",
     "lint": "oxlint --tsconfig tsconfig.json src/ test/",
@@ -50,6 +51,7 @@
     "openai": "^7.43.0"
   },
   "devDependencies": {
+    "@opencode-ai/plugin": "^1.17.8",
     "@types/bun": "latest",
     "oxfmt": "^0.32.0",
     "oxlint": "^1.47.0",
